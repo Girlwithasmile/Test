@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arthritis Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        .chatbox { width: 50%; margin: auto; border: 1px solid #ccc; padding: 10px; border-radius: 10px; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .bot { background-color: #f1f1f1; text-align: left; }
+        .user { background-color: #d1e7fd; text-align: right; }
+        button { margin: 5px; padding: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Arthritis Chatbot</h2>
+    <div class="chatbox" id="chatbox"></div>
+    <div id="controls">
+        <button onclick="reply('Yes')">Yes</button>
+        <button onclick="reply('No')">No</button>
+    </div>
+    
+    <script>
+        const questions = [
+            "Do you frequently experience joint pain, stiffness, or discomfort?",
+            "Do your symptoms worsen in the morning or after inactivity?",
+            "Have you noticed swelling in or around your joints?",
+            "Do you feel warmth or tenderness in your joints?",
+            "Do you experience limited movement or difficulty in bending joints?",
+            "Have you heard clicking or popping sounds in your joints?",
+            "Is your pain symmetrical (both sides of the body)?",
+            "Does your joint pain worsen after physical activity?",
+            "Do you feel pain in weight-bearing joints like knees or lower back?",
+            "Have you experienced redness or skin discoloration around a joint?",
+            "Do you have a fever, fatigue, or feel unwell along with joint pain?",
+            "Have you noticed small lumps under your skin around joints?",
+            "Have your symptoms lasted for more than six weeks?",
+            "Do your symptoms worsen over time without improvement?",
+            "Do you have a family history of arthritis or autoimmune diseases?",
+            "Are you over the age of 50?",
+            "Do you have a history of joint injuries or repetitive strain?",
+            "Are you overweight or obese?",
+            "Do you feel stiffness or pain in your neck or back?",
+            "Have you experienced deformities or changes in joint shape?",
+            "Do you experience knee pain while getting up from a chair?",
+            "Can you not bend your elbow properly?"
+        ];
+        
+        let currentQuestion = 0;
+        let yesCount = 0;
+        const chatbox = document.getElementById("chatbox");
+        
+        function addMessage(text, sender) {
+            const message = document.createElement("div");
+            message.className = `message ${sender}`;
+            message.innerText = text;
+            chatbox.appendChild(message);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+        
+        function reply(answer) {
+            if (answer === "Yes") yesCount++;
+            addMessage(answer, "user");
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                setTimeout(() => addMessage(questions[currentQuestion], "bot"), 500);
+            } else {
+                setTimeout(showResult, 500);
+            }
+        }
+        
+        function showResult() {
+            let result = "";
+            if (yesCount > 15) {
+                result = "You may have Grade 2 Arthritis. Please consult a doctor.";
+            } else if (yesCount > 8) {
+                result = "You may have Grade 1 Arthritis. Consider getting a check-up.";
+            } else if (yesCount > 4) {
+                result = "You may have early signs of Arthritis. Monitor your symptoms.";
+            } else {
+                result = "You are unlikely to have Arthritis based on these answers.";
+            }
+            addMessage(result, "bot");
+            document.getElementById("controls").style.display = "none";
+        }
+        
+        window.onload = function () {
+            addMessage("Hello! I will ask you some questions about joint pain. Answer Yes or No.", "bot");
+            setTimeout(() => addMessage(questions[currentQuestion], "bot"), 1000);
+        };
+    </script>
+</body>
+</html>
