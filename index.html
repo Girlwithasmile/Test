@@ -3,93 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arthritis Chatbot</title>
+    <title>Arthritis Assessment Chatbot</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        .chatbox { width: 50%; margin: auto; border: 1px solid #ccc; padding: 10px; border-radius: 10px; }
-        .message { margin: 10px 0; padding: 10px; border-radius: 5px; }
-        .bot { background-color: #f1f1f1; text-align: left; }
-        .user { background-color: #d1e7fd; text-align: right; }
-        button { margin: 5px; padding: 10px; cursor: pointer; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #chatbox {
+            width: 50%;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h2>Arthritis Chatbot</h2>
-    <div class="chatbox" id="chatbox"></div>
-    <div id="controls">
-        <button onclick="reply('Yes')">Yes</button>
-        <button onclick="reply('No')">No</button>
+    <div id="chatbox">
+        <p id="question">Click Start to begin the assessment.</p>
+        <button onclick="startChat()">Start</button>
+        <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
+        <button id="noBtn" onclick="answer('no')" style="display:none;">No</button>
+        <div id="output"></div>
     </div>
-    
     <script>
         const questions = [
             "Do you frequently experience joint pain, stiffness, or discomfort?",
             "Do your symptoms worsen in the morning or after inactivity?",
-            "Have you noticed swelling in or around your joints?",
-            "Do you feel warmth or tenderness in your joints?",
-            "Do you experience limited movement or difficulty in bending joints?",
+            "Have you noticed swelling or inflammation in your joints?",
+            "Do you feel warmth or tenderness in your joints when touched?",
+            "Do you experience limited movement in your joints?",
             "Have you heard clicking or popping sounds in your joints?",
-            "Is your pain symmetrical (both sides of the body)?",
+            "Is your pain symmetrical (affecting both sides of the body)?",
             "Does your joint pain worsen after physical activity?",
-            "Do you feel pain in weight-bearing joints like knees or lower back?",
-            "Have you experienced redness or skin discoloration around a joint?",
-            "Do you have a fever, fatigue, or feel unwell along with joint pain?",
-            "Have you noticed small lumps under your skin around joints?",
-            "Have your symptoms lasted for more than six weeks?",
-            "Do your symptoms worsen over time without improvement?",
+            "Do you feel pain in weight-bearing joints like knees, hips, or lower back?",
+            "Have you experienced redness or discoloration around a joint?",
+            "Do you have fever, fatigue, or a general feeling of being unwell along with joint pain?",
+            "Have you noticed small lumps or nodules around joints?",
+            "Have your joint symptoms persisted for more than six weeks?",
+            "Do your symptoms seem to worsen over time without improvement?",
             "Do you have a family history of arthritis or autoimmune diseases?",
             "Are you over the age of 50?",
-            "Do you have a history of joint injuries or repetitive strain?",
+            "Have you had joint injuries or repetitive strain from sports or manual labor?",
             "Are you overweight or obese?",
             "Do you feel stiffness or pain in your neck or back?",
-            "Have you experienced deformities or changes in joint shape?",
+            "Have you noticed deformities or changes in joint shape?",
             "Do you experience knee pain while getting up from a chair?",
             "Can you not bend your elbow properly?"
         ];
-        
-        let currentQuestion = 0;
+
+        let index = 0;
         let yesCount = 0;
-        const chatbox = document.getElementById("chatbox");
-        
-        function addMessage(text, sender) {
-            const message = document.createElement("div");
-            message.className = `message ${sender}`;
-            message.innerText = text;
-            chatbox.appendChild(message);
-            chatbox.scrollTop = chatbox.scrollHeight;
+
+        function startChat() {
+            document.getElementById("yesBtn").style.display = "inline";
+            document.getElementById("noBtn").style.display = "inline";
+            document.getElementById("output").innerHTML = "";
+            index = 0;
+            yesCount = 0;
+            document.getElementById("question").innerText = questions[index];
         }
-        
-        function reply(answer) {
-            if (answer === "Yes") yesCount++;
-            addMessage(answer, "user");
-            
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                setTimeout(() => addMessage(questions[currentQuestion], "bot"), 500);
+
+        function answer(response) {
+            if (response === 'yes') {
+                yesCount++;
+            }
+            index++;
+
+            if (index < questions.length) {
+                document.getElementById("question").innerText = questions[index];
             } else {
-                setTimeout(showResult, 500);
+                showResult();
             }
         }
-        
+
         function showResult() {
+            document.getElementById("yesBtn").style.display = "none";
+            document.getElementById("noBtn").style.display = "none";
             let result = "";
+            
             if (yesCount > 15) {
-                result = "You may have Grade 2 Arthritis. Please consult a doctor.";
+                result = "Warning: Your symptoms indicate Grade 2 arthritis, which may lead to serious complications.";
             } else if (yesCount > 8) {
-                result = "You may have Grade 1 Arthritis. Consider getting a check-up.";
+                result = "Warning: Your symptoms indicate Grade 1 arthritis. Early treatment is advised.";
             } else if (yesCount > 4) {
-                result = "You may have early signs of Arthritis. Monitor your symptoms.";
+                result = "Caution: You may have arthritis. Please consult a specialist for further evaluation.";
             } else {
-                result = "You are unlikely to have Arthritis based on these answers.";
+                result = "Your symptoms do not strongly indicate arthritis, but if discomfort persists, consider consulting a doctor.";
             }
-            addMessage(result, "bot");
-            document.getElementById("controls").style.display = "none";
+            document.getElementById("output").innerText = result;
         }
-        
-        window.onload = function () {
-            addMessage("Hello! I will ask you some questions about joint pain. Answer Yes or No.", "bot");
-            setTimeout(() => addMessage(questions[currentQuestion], "bot"), 1000);
-        };
     </script>
 </body>
 </html>
