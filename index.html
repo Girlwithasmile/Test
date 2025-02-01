@@ -21,6 +21,7 @@
         #output {
             margin-top: 20px;
             font-weight: bold;
+            color: red;
         }
         button {
             margin: 10px;
@@ -33,7 +34,7 @@
 <body>
     <div id="chatbox">
         <p id="question">Click Start to begin the assessment.</p>
-        <button onclick="startChat()">Start</button>
+        <button id="startBtn" onclick="startChat()">Start</button>
         <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
         <button id="noBtn" onclick="answer('no')" style="display:none;">No</button>
         <div id="output"></div>
@@ -68,6 +69,7 @@
         let yesCount = 0;
 
         function startChat() {
+            document.getElementById("startBtn").style.display = "none";
             document.getElementById("yesBtn").style.display = "inline";
             document.getElementById("noBtn").style.display = "inline";
             document.getElementById("output").innerHTML = "";
@@ -95,13 +97,13 @@
             let result = "";
             
             if (yesCount > 15) {
-                result = "Warning: Your symptoms indicate Grade 2 arthritis, which may lead to serious complications.";
+                result = "⚠️ WARNING: Your symptoms indicate Grade 2 arthritis, which can lead to severe joint damage and chronic disability. Seek medical attention immediately!";
             } else if (yesCount > 8) {
-                result = "Warning: Your symptoms indicate Grade 1 arthritis. Early treatment is advised.";
+                result = "⚠️ CAUTION: Your symptoms indicate Grade 1 arthritis. Early treatment is advised to prevent worsening.";
             } else if (yesCount > 4) {
-                result = "Caution: You may have arthritis. Please consult a specialist for further evaluation.";
+                result = "⚠️ ALERT: You may have arthritis. Please consult a specialist for further evaluation.";
             } else {
-                result = "Your symptoms do not strongly indicate arthritis, but if discomfort persists, consider consulting a doctor.";
+                result = "✅ Your symptoms do not strongly indicate arthritis, but if discomfort persists, consider consulting a doctor.";
             }
             document.getElementById("output").innerText = result;
         }
