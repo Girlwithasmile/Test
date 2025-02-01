@@ -18,6 +18,11 @@
             border-radius: 10px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
+        #question-img {
+            width: 150px;
+            height: 150px;
+            margin: 10px;
+        }
         #output {
             margin-top: 20px;
             font-weight: bold;
@@ -33,36 +38,26 @@
 </head>
 <body>
     <div id="chatbox">
+        <img id="question-img" src="https://via.placeholder.com/150" alt="Question Image">
         <p id="question">Click Start to begin the assessment.</p>
         <button id="startBtn" onclick="startChat()">Start</button>
         <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
         <button id="noBtn" onclick="answer('no')" style="display:none;">No</button>
         <div id="output"></div>
     </div>
+
     <script>
         const questions = [
-            "Do you frequently experience joint pain, stiffness, or discomfort?",
-            "Do your symptoms worsen in the morning or after inactivity?",
-            "Have you noticed swelling or inflammation in your joints?",
-            "Do you feel warmth or tenderness in your joints when touched?",
-            "Do you experience limited movement in your joints?",
-            "Have you heard clicking or popping sounds in your joints?",
-            "Is your pain symmetrical (affecting both sides of the body)?",
-            "Does your joint pain worsen after physical activity?",
-            "Do you feel pain in weight-bearing joints like knees, hips, or lower back?",
-            "Have you experienced redness or discoloration around a joint?",
-            "Do you have fever, fatigue, or a general feeling of being unwell along with joint pain?",
-            "Have you noticed small lumps or nodules around joints?",
-            "Have your joint symptoms persisted for more than six weeks?",
-            "Do your symptoms seem to worsen over time without improvement?",
-            "Do you have a family history of arthritis or autoimmune diseases?",
-            "Are you over the age of 50?",
-            "Have you had joint injuries or repetitive strain from sports or manual labor?",
-            "Are you overweight or obese?",
-            "Do you feel stiffness or pain in your neck or back?",
-            "Have you noticed deformities or changes in joint shape?",
-            "Do you experience knee pain while getting up from a chair?",
-            "Can you not bend your elbow properly?"
+            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", img: "joint_pain.jpg"},
+            {text: "Do your symptoms worsen in the morning or after inactivity?", img: "morning_stiffness.jpg"},
+            {text: "Have you noticed swelling or inflammation in your joints?", img: "swelling.jpg"},
+            {text: "Do you feel warmth or tenderness in your joints when touched?", img: "warmth_tenderness.jpg"},
+            {text: "Do you experience limited movement in your joints?", img: "limited_movement.jpg"},
+            {text: "Have you heard clicking or popping sounds in your joints?", img: "joint_sounds.jpg"},
+            {text: "Is your pain symmetrical (affecting both sides of the body)?", img: "symmetrical_pain.jpg"},
+            {text: "Does your joint pain worsen after physical activity?", img: "post_activity_pain.jpg"},
+            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", img: "weight_bearing_pain.jpg"},
+            {text: "Have you experienced redness or discoloration around a joint?", img: "redness.jpg"}
         ];
 
         let index = 0;
@@ -75,7 +70,16 @@
             document.getElementById("output").innerHTML = "";
             index = 0;
             yesCount = 0;
-            document.getElementById("question").innerText = questions[index];
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (index < questions.length) {
+                document.getElementById("question").innerText = questions[index].text;
+                document.getElementById("question-img").src = `images/${questions[index].img}`;
+            } else {
+                showResult();
+            }
         }
 
         function answer(response) {
@@ -83,30 +87,27 @@
                 yesCount++;
             }
             index++;
-
-            if (index < questions.length) {
-                document.getElementById("question").innerText = questions[index];
-            } else {
-                showResult();
-            }
+            showQuestion();
         }
 
         function showResult() {
             document.getElementById("yesBtn").style.display = "none";
             document.getElementById("noBtn").style.display = "none";
             let result = "";
-            
+
             if (yesCount > 15) {
-                result = "⚠️ WARNING: Your symptoms indicate Grade 2 arthritis, which can lead to severe joint damage and chronic disability. Seek medical attention immediately!";
+                result = "🚨 WARNING: You may have **Grade 2 arthritis**. Seek medical help immediately!";
             } else if (yesCount > 8) {
-                result = "⚠️ CAUTION: Your symptoms indicate Grade 1 arthritis. Early treatment is advised to prevent worsening.";
+                result = "⚠️ CAUTION: You may have **Grade 1 arthritis**. Early treatment is recommended.";
             } else if (yesCount > 4) {
-                result = "⚠️ ALERT: You may have arthritis. Please consult a specialist for further evaluation.";
+                result = "⚠️ ALERT: You may have arthritis. Consult a specialist.";
             } else {
-                result = "✅ Your symptoms do not strongly indicate arthritis, but if discomfort persists, consider consulting a doctor.";
+                result = "✅ Your symptoms are mild, but if discomfort persists, consider consulting a doctor.";
             }
+
             document.getElementById("output").innerText = result;
         }
     </script>
 </body>
 </html>
+
