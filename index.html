@@ -19,9 +19,8 @@
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
         #question-img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
+            width: 150px;
+            height: 150px;
             margin: 10px;
         }
         #output {
@@ -39,6 +38,7 @@
 </head>
 <body>
     <div id="chatbox">
+        <img id="question-img" alt="Question Image">
         <p id="question">Click Start to begin the assessment.</p>
         <button id="startBtn" onclick="startChat()">Start</button>
         <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
@@ -76,7 +76,7 @@
         function showQuestion() {
             if (index < questions.length) {
                 document.getElementById("question").innerText = questions[index].text;
-                document.getElementById("question-img").src = questions[index].img;
+                document.getElementById("question-img").src = `images/${questions[index].img}`;
             } else {
                 showResult();
             }
