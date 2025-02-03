@@ -9,37 +9,55 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f4f4f4;
         }
         #chatbox {
             width: 50%;
             margin: auto;
-            border: 1px solid #ccc;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
         }
         #question-img {
-            width: 120px;
-            height: 120px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             margin: 10px;
+            border-radius: 10px;
+        }
+        #question-video {
+            width: 100%;
+            border-radius: 10px;
+            display: none;
         }
         #output {
             margin-top: 20px;
             font-weight: bold;
-            color: red;
+            font-size: 18px;
+            color: #d9534f;
         }
         button {
             margin: 10px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 16px;
             cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #4cae4c;
         }
     </style>
 </head>
 <body>
     <div id="chatbox">
-        <img id="question-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVJJ9h9kYdP-8V06XDmSF4l9APG3sl5hJ_lA&s" alt="Question Image">
+        <img id="question-img" src="https://media.tenor.com/Oq6AjTx3SKYAAAAM/arthritis.gif" alt="Question Image">
+        <video id="question-video" controls></video>
         <p id="question">Click Start to begin the assessment.</p>
         <button id="startBtn" onclick="startChat()">Start</button>
         <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
@@ -49,16 +67,16 @@
 
     <script>
         const questions = [
-            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", img: "https://optimists.in/health-hub/wp-content/uploads/2022/07/joint-pain-atoz-optimists-healthcare.webp"},
-            {text: "Do your symptoms worsen in the morning or after inactivity?", img: "https://images.squarespace-cdn.com/content/v1/5e22419ca78e35512ed1d90e/d12c5178-f204-4fbf-930b-da62ac2c9ba6/WomanWithKneePain"},
-            {text: "Have you noticed swelling or inflammation in your joints?", img: "https://www.manchesterlumpsclinic.com/wp-content/uploads/2024/03/joint-swelling.jpg"},
-            {text: "Do you feel warmth or tenderness in your joints when touched?", img: "https://static1.squarespace.com/static/5ab5db3b96e76fecf9ac2a84/5eb9a9abb7a1f3362cf5bce9/6477a6130e4afa4e7f09f5e7/1688759676621/Tips+to+Reduce+Joint+Pain+and+Stiffness+-+Triumph+Physio+and+Wellness.jpg?format=1500w"},
-            {text: "Do you experience limited movement in your joints?", img: "https://www.shutterstock.com/image-photo/arthritis-symptoms-woman-suffering-hip-600nw-2435240415.jpg"},
-            {text: "Have you heard clicking or popping sounds in your joints?", img: "https://www.drsantoshshetty.com/wp-content/uploads/2019/10/clicking-and-popping-bones-2.jpg"},
-            {text: "Is your pain symmetrical (affecting both sides of the body)?", img: "https://www.metrohospitals.com/wp-content/uploads/2024/04/Rheumatoid-Arthritis.jpg"},
-            {text: "Does your joint pain worsen after physical activity?", img: "https://images.squarespace-cdn.com/content/v1/5e22419ca78e35512ed1d90e/3fa54bfd-58d2-4797-8251-f3fb7c4bff5d/AdobeStock_121088266.jpeg?format=2500w"},
-            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", img: "https://media.post.rvohealth.io/wp-content/uploads/2024/04/little-boy-holding-his-knee-pain-732x549-thumbnail.jpg"},
-            {text: "Have you experienced redness or discoloration around a joint?", img: "https://orthopaedia.com/wp-content/uploads/2023/10/71e619e2-0791-432b-bc72-4917ac7d6c20-1658795717416.png"}
+            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", img: "https://media.tenor.com/Oq6AjTx3SKYAAAAM/arthritis.gif", video: ""},
+            {text: "Do your symptoms worsen in the morning or after inactivity?", img: "https://media.tenor.com/HLyK7pOjR4YAAAAM/knee-pain.gif", video: ""},
+            {text: "Have you noticed swelling or inflammation in your joints?", img: "https://www.manchesterlumpsclinic.com/wp-content/uploads/2024/03/joint-swelling.jpg", video: ""},
+            {text: "Do you feel warmth or tenderness in your joints when touched?", img: "", video: "https://www.youtube.com/embed/qxqOesfmefY"},
+            {text: "Do you experience limited movement in your joints?", img: "https://media.tenor.com/LhfpyzLP_pUAAAAM/joint-pain-arthritis.gif", video: ""},
+            {text: "Have you heard clicking or popping sounds in your joints?", img: "https://www.drsantoshshetty.com/wp-content/uploads/2019/10/clicking-and-popping-bones-2.jpg", video: ""},
+            {text: "Is your pain symmetrical (affecting both sides of the body)?", img: "https://www.metrohospitals.com/wp-content/uploads/2024/04/Rheumatoid-Arthritis.jpg", video: ""},
+            {text: "Does your joint pain worsen after physical activity?", img: "https://media.tenor.com/-cbZ86Kk0TsAAAAM/knee-joint-pain.gif", video: ""},
+            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", img: "https://media.tenor.com/Iq2UuMxsNqUAAAAM/knee-pain.gif", video: ""},
+            {text: "Have you experienced redness or discoloration around a joint?", img: "https://orthopaedia.com/wp-content/uploads/2023/10/71e619e2-0791-432b-bc72-4917ac7d6c20-1658795717416.png", video: ""}
         ];
 
         let index = 0;
@@ -77,7 +95,18 @@
         function showQuestion() {
             if (index < questions.length) {
                 document.getElementById("question").innerText = questions[index].text;
-                document.getElementById("question-img").src = questions[index].img;
+                let imgElement = document.getElementById("question-img");
+                let videoElement = document.getElementById("question-video");
+                
+                if (questions[index].img) {
+                    imgElement.src = questions[index].img;
+                    imgElement.style.display = "block";
+                    videoElement.style.display = "none";
+                } else {
+                    videoElement.src = questions[index].video;
+                    videoElement.style.display = "block";
+                    imgElement.style.display = "none";
+                }
             } else {
                 showResult();
             }
@@ -96,14 +125,12 @@
             document.getElementById("noBtn").style.display = "none";
             let result = "";
 
-            if (yesCount > 15) {
-                result = "🚨 WARNING: You may have **Grade 2 arthritis**. Seek medical help immediately!";
-            } else if (yesCount > 8) {
-                result = "⚠️ CAUTION: You may have **Grade 1 arthritis**. Early treatment is recommended.";
+            if (yesCount > 7) {
+                result = "🚨 WARNING: You may have **moderate to severe arthritis**. Seek medical help immediately!";
             } else if (yesCount > 4) {
-                result = "⚠️ ALERT: You may have arthritis. Consult a specialist.";
+                result = "⚠️ CAUTION: You may have **early signs of arthritis**. Consider consulting a doctor.";
             } else {
-                result = "✅ Your symptoms are mild, but if discomfort persists, consider consulting a doctor.";
+                result = "✅ Your symptoms seem mild, but if discomfort persists, consult a specialist.";
             }
 
             document.getElementById("output").innerText = result;
