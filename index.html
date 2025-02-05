@@ -43,31 +43,41 @@
         #yesBtn { background-color: green; color: white; }
         #noBtn { background-color: red; color: white; }
         #startBtn { background-color: blue; color: white; }
+        #video-container {
+            margin-top: 20px;
+            display: none;
+        }
+        video {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="chatbox">
-        <img id="question-img" src="" alt="Question Image">
         <p id="question">Click Start to begin the assessment.</p>
         <button id="startBtn" onclick="startChat()">Start</button>
         <button id="yesBtn" onclick="answer('yes')" style="display:none;">Yes</button>
         <button id="noBtn" onclick="answer('no')" style="display:none;">No</button>
         <div id="output"></div>
-        <div id="video-container" style="margin-top: 20px; display: none;">
-            <video id="video-frame" width="400" controls autoplay>
-                <source id="video-source" src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+        <div id="video-container">
+            <video id="video-frame" controls></video>
         </div>
     </div>
 
     <script>
         const questions = [
-            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "video/video1.mp4"},
-            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "video/video2.mp4"},
-            {text: "Have you noticed swelling or inflammation in your joints?", video: "video/video3.mp4"},
-            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "video/video4.mp4"},
-            {text: "Do you experience limited movement in your joints?", video: "video/video5.mp4"}
+            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "https://yourhostedvideo.com/jointpain.mp4"},
+            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "https://github.com/Girlwithasmile/Test/blob/main/morning.mp4"},
+            {text: "Have you noticed swelling or inflammation in your joints?", video: "https://yourhostedvideo.com/swelling.mp4"},
+            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "https://yourhostedvideo.com/tenderness.mp4"},
+            {text: "Do you experience limited movement in your joints?", video: "https://yourhostedvideo.com/movement.mp4"},
+            {text: "Have you heard clicking or popping sounds in your joints?", video: "https://yourhostedvideo.com/clicking.mp4"},
+            {text: "Is your pain symmetrical (affecting both sides of the body)?", video: "https://yourhostedvideo.com/symmetry.mp4"},
+            {text: "Does your joint pain worsen after physical activity?", video: "https://yourhostedvideo.com/activity.mp4"},
+            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", video: "https://yourhostedvideo.com/weightbearing.mp4"},
+            {text: "Have you experienced redness or discoloration around a joint?", video: "https://yourhostedvideo.com/redness.mp4"}
         ];
 
         let index = 0;
@@ -86,15 +96,7 @@
         function showQuestion() {
             if (index < questions.length) {
                 document.getElementById("question").innerText = questions[index].text;
-
-                // Update video source dynamically
-                let videoElement = document.getElementById("video-frame");
-                let videoSource = document.getElementById("video-source");
-
-                videoSource.src = questions[index].video;
-                videoElement.load();  // Reload the video to apply new source
-                videoElement.play();  // Ensure video starts playing automatically
-
+                document.getElementById("video-frame").src = questions[index].video;
                 document.getElementById("video-container").style.display = "block";
             } else {
                 showResult();
@@ -113,10 +115,9 @@
             document.getElementById("yesBtn").style.display = "none";
             document.getElementById("noBtn").style.display = "none";
             document.getElementById("video-container").style.display = "none";
-            let result = yesCount > 2 ? "⚠️ You may have arthritis. Consult a specialist." : "✅ Your symptoms are mild, but consider consulting a doctor if discomfort persists.";
+            let result = yesCount > 5 ? "⚠️ You may have arthritis. Consult a specialist." : "✅ Your symptoms are mild, but consider consulting a doctor if discomfort persists.";
             document.getElementById("output").innerText = result;
         }
     </script>
 </body>
 </html>
-
