@@ -54,22 +54,20 @@
         <button id="noBtn" onclick="answer('no')" style="display:none;">No</button>
         <div id="output"></div>
         <div id="video-container" style="margin-top: 20px; display: none;">
-            
+            <video id="video-frame" width="400" controls autoplay>
+                <source id="video-source" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
     <script>
         const questions = [
-            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "https://github.com/Girlwithasmile/Test/blob/main/Untitled%20design%20(1).mp4"},
-            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "morning.mp4"},
-            {text: "Have you noticed swelling or inflammation in your joints?", video: "https://github.com/Girlwithasmile/Test/blob/main/Untitled%20design.mp4"},
-            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "https://github.com/Girlwithasmile/Test/blob/main/touch.mp4"},
-            {text: "Do you experience limited movement in your joints?", video: "https://github.com/Girlwithasmile/Test/blob/main/limitedmovement.mp4"},
-            {text: "Have you heard clicking or popping sounds in your joints?", video: "https://github.com/Girlwithasmile/Test/blob/main/clickingpoppingsound.mp4"},
-            {text: "Is your pain symmetrical (affecting both sides of the body)?", video: "https://github.com/Girlwithasmile/Test/blob/main/symmetrical.mp4"},
-            {text: "Does your joint pain worsen after physical activity?", video: "https://private-user-images.githubusercontent.com/98261167/409543876-93fe82e4-8b0d-4e35-b444-b9281a0055c0.mp4?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzg2NzMxNTksIm5iZiI6MTczODY3Mjg1OSwicGF0aCI6Ii85ODI2MTE2Ny80MDk1NDM4NzYtOTNmZTgyZTQtOGIwZC00ZTM1LWI0NDQtYjkyODFhMDA1NWMwLm1wND9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAyMDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMjA0VDEyNDA1OVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTRmZDdkNDZhOTVlNWEyMDJiNTczMTU1MDliMzMwZGVkZmY3MTA0NTQxOGQ3ZmFhZjUwMGRhM2I0NWJjZjE1OTgmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.FZDWXEWQ8rf5vXrtouEi2OudEUKceuFx5B6p6CleQ20"},
-            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", video: "https://drive.google.com/file/d/1JZcu3u5qZA_kjscAunHFIMK8w5qFPinO/view?usp=sharing"},
-            {text: "Have you experienced redness or discoloration around a joint?", video: "https://github.com/Girlwithasmile/Test/blob/main/redness.mp4"}
+            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "video/video1.mp4"},
+            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "video/video2.mp4"},
+            {text: "Have you noticed swelling or inflammation in your joints?", video: "video/video3.mp4"},
+            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "video/video4.mp4"},
+            {text: "Do you experience limited movement in your joints?", video: "video/video5.mp4"}
         ];
 
         let index = 0;
@@ -88,8 +86,15 @@
         function showQuestion() {
             if (index < questions.length) {
                 document.getElementById("question").innerText = questions[index].text;
-                document.getElementById("question-img").src = questions[index].img;
-                document.getElementById("video-frame").src = questions[index].video;
+
+                // Update video source dynamically
+                let videoElement = document.getElementById("video-frame");
+                let videoSource = document.getElementById("video-source");
+
+                videoSource.src = questions[index].video;
+                videoElement.load();  // Reload the video to apply new source
+                videoElement.play();  // Ensure video starts playing automatically
+
                 document.getElementById("video-container").style.display = "block";
             } else {
                 showResult();
@@ -108,7 +113,7 @@
             document.getElementById("yesBtn").style.display = "none";
             document.getElementById("noBtn").style.display = "none";
             document.getElementById("video-container").style.display = "none";
-            let result = yesCount > 5 ? "⚠️ You may have arthritis. Consult a specialist." : "✅ Your symptoms are mild, but consider consulting a doctor if discomfort persists.";
+            let result = yesCount > 2 ? "⚠️ You may have arthritis. Consult a specialist." : "✅ Your symptoms are mild, but consider consulting a doctor if discomfort persists.";
             document.getElementById("output").innerText = result;
         }
     </script>
