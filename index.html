@@ -47,10 +47,11 @@
             margin-top: 20px;
             display: none;
         }
-        video {
+        iframe {
             width: 100%;
             max-width: 500px;
             border-radius: 10px;
+            height: 280px; /* Adjust height as needed */
         }
     </style>
 </head>
@@ -68,16 +69,16 @@
 
     <script>
         const questions = [
-            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "https://drive.google.com/file/d/1JZcu3u5qZA_kjscAunHFIMK8w5qFPinO"},
-            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "https://github.com/Girlwithasmile/Test/blob/main/morning.mp4"},
-            {text: "Have you noticed swelling or inflammation in your joints?", video: "https://yourhostedvideo.com/swelling.mp4"},
-            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "https://yourhostedvideo.com/tenderness.mp4"},
-            {text: "Do you experience limited movement in your joints?", video: "https://yourhostedvideo.com/movement.mp4"},
-            {text: "Have you heard clicking or popping sounds in your joints?", video: "https://yourhostedvideo.com/clicking.mp4"},
-            {text: "Is your pain symmetrical (affecting both sides of the body)?", video: "https://yourhostedvideo.com/symmetry.mp4"},
-            {text: "Does your joint pain worsen after physical activity?", video: "https://yourhostedvideo.com/activity.mp4"},
-            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", video: "https://drive.google.com/file/d/1JZcu3u5qZA_kjscAunHFIMK8w5qFPinO/view?usp=drive_link"},
-            {text: "Have you experienced redness or discoloration around a joint?", video: "https://yourhostedvideo.com/redness.mp4"}
+            {text: "Do you frequently experience joint pain, stiffness, or discomfort?", video: "https://drive.google.com/file/d/1JZcu3u5qZA_kjscAunHFIMK8w5qFPinO/preview?autoplay=1&controls=0"},
+            {text: "Do your symptoms worsen in the morning or after inactivity?", video: "https://drive.google.com/file/d/1YyrhvDWKDsk-9vP_mnlq64-5IniDnrJD/preview?autoplay=1&controls=0"},
+            {text: "Have you noticed swelling or inflammation in your joints?", video: "https://drive.google.com/file/d/1CTKrBOF0-R0HW5d1A8yJTL0kMaY9vUnB/preview?autoplay=1&controls=0"},
+            {text: "Do you feel warmth or tenderness in your joints when touched?", video: "https://drive.google.com/file/d/15u8eGPlAW3KAgkvOYLm56Iz6DLRdZBpB/preview?autoplay=1&controls=0"},
+            {text: "Do you experience limited movement in your joints?", video: ""https://drive.google.com/file/d/176MttQhEGarR0Ve6V_SrL0ZLBrsy75nz/preview?autoplay=1&controls=0"},
+            {text: "Have you heard clicking or popping sounds in your joints?", video: "https://drive.google.com/file/d/11B9hp8-UDFX5WpGIGsydoZEPb3PMhlO8/preview?autoplay=1&controls=0"},
+            {text: "Is your pain symmetrical (affecting both sides of the body)?", video: "https://drive.google.com/file/d/1PViIF8fSh7H9QkXWve7S7K1iC2OsmMZH/preview?autoplay=1&controls=0"},
+            {text: "Does your joint pain worsen after physical activity?", video: "https://drive.google.com/file/d/1XY7mybKFzgEuZh2YsI00Vn7xz26YNAxA/preview?autoplay=1&controls=0"},
+            {text: "Do you feel pain in weight-bearing joints like knees, hips, or lower back?", video: "https://drive.google.com/file/d/1-fZyUxs6AWxVuy2Q-8k971L_Uq2WR1Fo/preview?autoplay=1&controls=0"},
+            {text: "Have you experienced redness or discoloration around a joint?", video: "https://drive.google.com/file/d/1u5E3b40E8RDxqP62UlWmHqPsGRv1LpkZ/preview?autoplay=1&controls=0"}
         ];
 
         let index = 0;
